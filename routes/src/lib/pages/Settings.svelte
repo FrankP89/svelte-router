@@ -12,17 +12,18 @@
     // }
 
     // onDestroy(unsubscribe);
-
 </script>
 
 <h2>Setings</h2>
 
-<button on:click={() => {
-    $settings.colorScheme = $settings.colorScheme === 'dark' ? 'light' : 'dark'
-}}>
-    Toggle Color Scheme</button>
-
-
+<button
+    on:click={() => {
+        settings.toggleColorScheme();
+    }}
+>
+    <!-- $settings.colorScheme = $settings.colorScheme === "dark" ? "light" : "dark"; -->
+    Toggle Color Scheme
+</button>
 
 <!-- {clabel>
     <input
@@ -42,6 +43,27 @@
     /> Light
 </label>
 olorScheme} -->
+
+<button
+    on:click={() => {
+        settings.updateSetting("language", "de");
+    }}
+>
+    Update Language
+</button>
+
+<button on:click={() => {
+    settings.reset();
+}}>
+Reset Settings
+</button>
+
+
+
+<br />
+{$settings.language}
+<br />
+
 <label>
     <input
         type="radio"
