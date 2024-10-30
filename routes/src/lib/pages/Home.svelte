@@ -26,6 +26,7 @@
     // import { writable } from "svelte/store";
     import { tweened } from "svelte/motion";
     import { cubicOut } from "svelte/easing";
+    import { interpolateRgb } from "d3-interpolate";
 
     // const scale = writable(1);
     // const scale = tweened(1,
@@ -34,10 +35,22 @@
     //         easing: cubicOut
     //     }
     // );
-    const size = tweened({width: 100, height: 100},
+    const boxProps = tweened(
+        {width: 100, height: 100, color: 'purple'},
         {
-            duration: 100,
-            easing: cubicOut
+            duration: 700,
+            easing: cubicOut,
+            interpolate: (a, b) => (t) => {
+                const deltaWidth = b.width - a.width;
+                const deltaHeight = b.height - a.height;
+                const color = interpolateRgb(a.color, b.color);
+                return {
+                    width: a.width + (deltaWidth) * t,
+                    height: a.height + (deltaHeight) * t,
+                    color: color(t)
+
+                }
+            }
         }
     );
 </script>
@@ -51,23 +64,26 @@
 </button> -->
 
 <button on:click={async () => {
-    await size.set({
+    await boxProps.set({
         width: Math.floor(Math.random() * 500),
-        height: Math.floor(Math.random() * 500)
-    });
+        height: Math.floor(Math.random() * 500),
+        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+    },
+    { duration: 2000 }
+    );
 }}>
     <!-- Animation doesn't work with this approach! =>  -->
     <!-- $size.width = Math.floor(Math.random() * 500);
     $size.height = Math.floor(Math.random() * 500); -->
 
-    Random Size
+    Random Box
 </button>
 
 
 <div
-    style="width:{$size.width}px; 
-        height:{$size.height}px;
-        background-color:purple;
+    style="width:{$boxProps.width}px; 
+        height:{$boxProps.height}px;
+        background-color:{$boxProps.color};
         "
         >
         <!-- transform:scale({$scale});
