@@ -24,9 +24,10 @@
 
 <script>
     // import { writable } from "svelte/store";
-    import { tweened } from "svelte/motion";
-    import { cubicOut } from "svelte/easing";
-    import { interpolateRgb } from "d3-interpolate";
+    // import { tweened } from "svelte/motion";
+    import { spring } from "svelte/motion";
+    // import { cubicOut } from "svelte/easing";
+    // import { interpolateRgb } from "d3-interpolate";
 
     // const scale = writable(1);
     // const scale = tweened(1,
@@ -35,23 +36,31 @@
     //         easing: cubicOut
     //     }
     // );
-    const boxProps = tweened(
-        {width: 100, height: 100, color: 'purple'},
-        {
-            duration: 700,
-            easing: cubicOut,
-            interpolate: (a, b) => (t) => {
-                const deltaWidth = b.width - a.width;
-                const deltaHeight = b.height - a.height;
-                const color = interpolateRgb(a.color, b.color);
-                return {
-                    width: a.width + (deltaWidth) * t,
-                    height: a.height + (deltaHeight) * t,
-                    color: color(t)
+    // const boxProps = tweened(
+    //     {width: 100, height: 100, color: 'purple'},
+    //     {
+    //         duration: 700,
+    //         easing: cubicOut,
+    //         interpolate: (a, b) => (t) => {
+    //             const deltaWidth = b.width - a.width;
+    //             const deltaHeight = b.height - a.height;
+    //             const color = interpolateRgb(a.color, b.color);
+    //             return {
+    //                 width: a.width + (deltaWidth) * t,
+    //                 height: a.height + (deltaHeight) * t,
+    //                 color: color(t)
 
-                }
-            }
-        }
+    //             }
+    //         }
+    //     }
+    // );
+
+    const boxProps = spring(
+        { width: 100, height: 100 },
+        {
+            stiffness: 0.1,
+            damping: 0.3,
+        },
     );
 </script>
 
@@ -63,15 +72,21 @@
     Make it smaller
 </button> -->
 
-<button on:click={async () => {
-    await boxProps.set({
-        width: Math.floor(Math.random() * 500),
-        height: Math.floor(Math.random() * 500),
-        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
-    },
-    { duration: 2000 }
-    );
-}}>
+<button
+    on:click={async () => {
+        await boxProps.set({
+            width: Math.random() * 500,
+            height: Math.random() * 500,
+        },{
+            // hard:true
+            soft: 1
+        });
+        console.log(boxProps);
+    }}
+>
+    <!-- Use Tweened for color and size interpolation -->
+    <!-- color: `#${Math.floor(Math.random() * 16777215).toString(16)}` -->
+
     <!-- Animation doesn't work with this approach! =>  -->
     <!-- $size.width = Math.floor(Math.random() * 500);
     $size.height = Math.floor(Math.random() * 500); -->
@@ -79,14 +94,11 @@
     Random Box
 </button>
 
-
 <div
     style="width:{$boxProps.width}px; 
         height:{$boxProps.height}px;
-        background-color:{$boxProps.color};
-        "
-        >
-        <!-- transform:scale({$scale});
+        background-color:purple;"
+>
+    <!-- transform:scale({$scale});
         transform-origin:0 0" -->
-
 </div>
