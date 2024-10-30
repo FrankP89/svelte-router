@@ -12,6 +12,7 @@
     // }
 
     // onDestroy(unsubscribe);
+    import direction from "../stores/direction"; 
 </script>
 
 <h2>Setings</h2>
@@ -59,7 +60,8 @@ Reset Settings
 </button>
 
 
-
+<br>
+{$direction}
 <br />
 {$settings.language}
 <br />
@@ -81,3 +83,10 @@ Reset Settings
         value="light"
     /> Light
 </label>
+
+
+<select bind:value={$settings.language}>
+    <option value="en">English</option>
+    <option value="de">German</option>
+    <option value="ar">Arabic</option>
+</select>
