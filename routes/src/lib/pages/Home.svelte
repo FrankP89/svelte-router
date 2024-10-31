@@ -84,14 +84,14 @@
         console.log(boxProps);
     }}
 > -->
-    <!-- Use Tweened for color and size interpolation -->
-    <!-- color: `#${Math.floor(Math.random() * 16777215).toString(16)}` -->
+<!-- Use Tweened for color and size interpolation -->
+<!-- color: `#${Math.floor(Math.random() * 16777215).toString(16)}` -->
 
-    <!-- Animation doesn't work with this approach! =>  -->
-    <!-- $size.width = Math.floor(Math.random() * 500);
+<!-- Animation doesn't work with this approach! =>  -->
+<!-- $size.width = Math.floor(Math.random() * 500);
     $size.height = Math.floor(Math.random() * 500); -->
 
-    <!-- Random Box -->
+<!-- Random Box -->
 <!-- </button> -->
 
 <!-- <div
@@ -99,10 +99,9 @@
         height:{$boxProps.height}px;
         background-color:purple;"
 > -->
-    <!-- transform:scale({$scale});
+<!-- transform:scale({$scale});
         transform-origin:0 0" -->
 <!-- </div> -->
-
 
 <!-- Use this section for: -->
 <!-- Context API -->
@@ -110,36 +109,38 @@
 <script>
     import Button from "../components/Button.svelte";
 
-    let values = {
-        username: "",
-        email: "",
-        password: ""        
-    };
-    let errors = {};
+    // let values = {
+    //     username: "",
+    //     email: "",
+    //     password: ""
+    // };
+    // let errors = {};
 
-    function validate(){
-        const errors = {};
-        if(!values.username){
-            errors.username = "The Username is required";
-        }
-        if(!values.email){
-            errors.email = "The Email is required";
-        }
-        if(!values.password){
-            errors.password = "The Password is required";
-        }
-        if (values.email && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)){
-            errors.email = "The Email is invalid";
-        }
-        return errors;
-        
-    }
+    // function validate(){
+    //     const errors = {};
+    //     if(!values.username){
+    //         errors.username = "The Username is required";
+    //     }
+    //     if(!values.email){
+    //         errors.email = "The Email is required";
+    //     }
+    //     if(!values.password){
+    //         errors.password = "The Password is required";
+    //     }
+    //     if (values.email && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)){
+    //         errors.email = "The Email is invalid";
+    //     }
+    //     return errors;
 
-    let isSubimitting = false;
+    // }
+
+    // let isSubimitting = false;
+
+    import Form from "../form/Form.svelte";
+    import Field from "../form/Field.svelte";
 </script>
 
-
-{JSON.stringify(values)}
+<!-- {JSON.stringify(values)}
 <form on:submit|preventDefault={() => {
     errors = validate();
     console.log(values);
@@ -184,9 +185,11 @@
         Submit
     </Button>
 
-</form>
+</form> -->
 
-
-<!-- <Form>
-    <field name="usernaeme" type="test" validate={() => {}} />
-</Form> -->
+<Form on:submit={() => {}}>
+    <Field label="Username" name="username" type="text" validate={() => {}} />
+    <Field label="Email" name="email" type="email" validate={() => {}} />
+    <Field label="Password" name="password" type="password" validate={() => {}} />
+    <Button type="submit">Submit</Button>
+</Form>
