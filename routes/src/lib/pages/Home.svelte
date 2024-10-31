@@ -187,9 +187,13 @@
 
 </form> -->
 
-<Form on:submit={() => {}}>
-    <Field label="Username" name="username" type="text" validate={() => {}} />
-    <Field label="Email" name="email" type="email" validate={() => {}} />
+<Form on:submit={(e) => {
+    console.log(e.detail);
+    console.log("Submitted");
+}} 
+    initialValues={{username:'Test', email:'test@example.com'}}>
+    <Field label="Username" name="username" type="text"     validate={() => {}} />
+    <Field label="Email"    name="email"    type="email"    validate={() => {}} />
     <Field label="Password" name="password" type="password" validate={() => {}} />
     <Button type="submit">Submit</Button>
 </Form>
