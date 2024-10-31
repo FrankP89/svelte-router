@@ -173,8 +173,8 @@
         Password:
     </label> <br />
     <input id="password" name="password" type="password" bind:value={values.password}/><br />
-    {#if errors.pasword}
-    <p>{errors.pasword}</p>
+    {#if errors.password}
+    <p>{errors.password}</p>
     {/if}
 
 
