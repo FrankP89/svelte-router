@@ -22,7 +22,7 @@
     <p>Location not available</p>
 {/if} -->
 
-<script>
+<!-- <script>
     // import { writable } from "svelte/store";
     // import { tweened } from "svelte/motion";
     import { spring } from "svelte/motion";
@@ -62,7 +62,7 @@
             damping: 0.3,
         },
     );
-</script>
+</script> -->
 
 <!-- <button on:click={() => $size += 1}>
     Make it bigger
@@ -72,7 +72,7 @@
     Make it smaller
 </button> -->
 
-<button
+<!-- <button
     on:click={async () => {
         await boxProps.set({
             width: Math.random() * 500,
@@ -83,7 +83,7 @@
         });
         console.log(boxProps);
     }}
->
+> -->
     <!-- Use Tweened for color and size interpolation -->
     <!-- color: `#${Math.floor(Math.random() * 16777215).toString(16)}` -->
 
@@ -91,14 +91,102 @@
     <!-- $size.width = Math.floor(Math.random() * 500);
     $size.height = Math.floor(Math.random() * 500); -->
 
-    Random Box
-</button>
+    <!-- Random Box -->
+<!-- </button> -->
 
-<div
+<!-- <div
     style="width:{$boxProps.width}px; 
         height:{$boxProps.height}px;
         background-color:purple;"
->
+> -->
     <!-- transform:scale({$scale});
         transform-origin:0 0" -->
-</div>
+<!-- </div> -->
+
+
+<!-- Use this section for: -->
+<!-- Context API -->
+
+<script>
+    import Button from "../components/Button.svelte";
+
+    let values = {
+        username: "",
+        email: "",
+        password: ""        
+    };
+    let errors = {};
+
+    function validate(){
+        const errors = {};
+        if(!values.username){
+            errors.username = "The Username is required";
+        }
+        if(!values.email){
+            errors.email = "The Email is required";
+        }
+        if(!values.password){
+            errors.password = "The Password is required";
+        }
+        if (values.email && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)){
+            errors.email = "The Email is invalid";
+        }
+        return errors;
+        
+    }
+
+    let isSubimitting = false;
+</script>
+
+
+{JSON.stringify(values)}
+<form on:submit|preventDefault={() => {
+    errors = validate();
+    console.log(values);
+    if(Object.keys(errors).length > 0){
+        return;
+    }
+    isSubimitting = true;
+    setTimeout(() => {
+        isSubimitting = false;
+    }, 1000);
+}}>
+    <label for="username">
+        Username:
+    </label> <br />
+    <input id="username" name="username" type="text" bind:value={values.username}/><br />
+    {#if errors.username}
+    <p>{errors.username}</p>
+    {/if}
+
+
+    <label for="email">
+        Email:
+    </label> <br />
+    <input id="email" name="email" type="email" bind:value={values.email}/><br />
+    {#if errors.email}
+    <p>{errors.email}</p>
+    {/if}
+
+
+    <label for="password">
+        Password:
+    </label> <br />
+    <input id="password" name="password" type="password" bind:value={values.password}/><br />
+    {#if errors.pasword}
+    <p>{errors.pasword}</p>
+    {/if}
+
+
+
+    <Button type="submit"
+    disabled={isSubimitting}>
+        Submit
+    </Button>
+
+</form>
+
+
+<!-- <Form>
+    <field name="usernaeme" type="test" validate={() => {}} />
+</Form> -->
