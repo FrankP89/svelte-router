@@ -138,6 +138,7 @@
 
     import Form from "../form/Form.svelte";
     import Field from "../form/Field.svelte";
+    import { validateEmail, validateRequiredField } from "../utils/validation";
 </script>
 
 <!-- {JSON.stringify(values)}
@@ -192,8 +193,8 @@
     console.log("Submitted");
 }} 
     initialValues={{username:'Test', email:'test@example.com'}}>
-    <Field label="Username" name="username" type="text"     validate={() => {}} />
-    <Field label="Email"    name="email"    type="email"    validate={() => {}} />
-    <Field label="Password" name="password" type="password" validate={() => {}} />
+    <Field label="Username" name="username" type="text"     validate={validateRequiredField} />
+    <Field label="Email"    name="email"    type="email"    validate={(value, label) => { return validateRequiredField(value, label) || validateEmail(value, label)}} />
+    <Field label="Password" name="password" type="password" validate={validateRequiredField} />
     <Button type="submit">Submit</Button>
 </Form>

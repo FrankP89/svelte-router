@@ -7,15 +7,21 @@
     const dispatcher = createEventDispatcher();
 
     export let initialValues = {};
-    const form = writable({values: initialValues, errors: {}});
+    const formStore = writable({values: initialValues, errors: {}, showErrors: false});
 
-    setContext(formKey, form);
+    setContext(formKey, formStore);
 </script>
 
-<pre>{JSON.stringify($form, null, 2)}</pre>
+<pre>{JSON.stringify($formStore, null, 2)}</pre>
 
 <form on:submit|preventDefault={() => {
-    dispatcher('submit', $form.values);
+    // Ensure that the form is validated before submitting
+    if (Object.keys($formStore.errors).length === 0) {
+        dispatcher('submit', $formStore.values);
+    } else {
+        $formStore.showErrors = true;
+    }
+    
 } } >
     <slot/>
 </form>
