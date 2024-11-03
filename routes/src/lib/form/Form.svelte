@@ -23,5 +23,12 @@
     }
     
 } } >
-    <slot/>
+    <slot 
+        hasErrors={Object.keys($formStore.errors).length > 0} 
+        values={$formStore.values} errors={$formStore.errors}
+        />
+        <!-- Passing the hasErrors prop helps the form to know when to block the button -->
+
+        <!-- showErrors={$formStore.showErrors}  -->
+        <!-- on:change={(event) => dispatcher('change', event.detail)} -->
 </form>

@@ -192,9 +192,17 @@
     console.log(e.detail);
     console.log("Submitted");
 }} 
-    initialValues={{username:'Test', email:'test@example.com'}}>
-    <Field label="Username" name="username" type="text"     validate={validateRequiredField} />
+    initialValues={{username:'Test', email:'test@example.com'}}
+    let:hasErrors
+    let:values
+    let:errors
+    >
+    {JSON.stringify(values)}
+    {JSON.stringify(errors)}
+    <Field label="Username" name="username" type="text"     validate={validateRequiredField} >
+        <p style:color="green" slot="error">This is a custom error message</p>
+    </Field>
     <Field label="Email"    name="email"    type="email"    validate={(value, label) => { return validateRequiredField(value, label) || validateEmail(value, label)}} />
     <Field label="Password" name="password" type="password" validate={validateRequiredField} />
-    <Button type="submit">Submit</Button>
+    <Button type="submit" disabled={hasErrors}>Submit</Button>
 </Form>
